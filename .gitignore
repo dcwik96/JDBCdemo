@@ -1,24 +1,24 @@
-# use glob syntax.
-syntax: glob
-*.class
-*~
-*.bak
-*.old
+target/
+.mvn
 
-# logs
-*.log
-
-# eclipse conf file
-.settings/
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
 .settings
+.springBeans
 
-# building
-target
-tmp*
-dist
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
 
-# other scm
-.svn
-.CVS
-.hg*
-
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
