@@ -11,7 +11,7 @@ import java.util.List;
 
 import com.example.jdbcdemo.domain.Person;
 
-public class PersonManager {
+public class PersonManagerJDBC {
 
 	private Connection connection;
 
@@ -25,7 +25,7 @@ public class PersonManager {
 
 	private Statement statement;
 
-	public PersonManager() {
+	public PersonManagerJDBC() {
 		try {
 			connection = DriverManager.getConnection(url);
 			statement = connection.createStatement();
