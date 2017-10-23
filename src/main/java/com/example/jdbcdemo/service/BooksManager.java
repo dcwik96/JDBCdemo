@@ -2,13 +2,13 @@ package com.example.jdbcdemo.service;
 
 import java.util.List;
 
-import com.example.jdbcdemo.domain.Person;
+import com.example.jdbcdemo.domain.Book;
 
 public interface BooksManager {
 
-	public int addPerson(Person person);
-	public int deletePerson(Person person);
-	public List<Person> getAllPersons();
-	public List<Person> findByName();
+	public int adBook(Book book);
+	public int deleteBook(Book book);
+	public List<Book> getAllBooks();
+	public List<Book> findByTitle();
 	
 }
