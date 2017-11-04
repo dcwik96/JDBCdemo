@@ -56,9 +56,9 @@ public class BookManagerJDBC implements BookManager{
 			updateBookStmt = connection.prepareStatement("UPDATE Book SET title = ?, author = ?, price = ? WHERE title = ? AND author = ? AND price = ?");
 			getAllBookStmt = connection.prepareStatement("SELECT id, title, author, price FROM Book");
 			findBookByIdStmt = connection.prepareStatement("SELECT id, title, author, price FROM Book WHERE id=?");
-			findBookByTitleStmt = connection.prepareStatement("SELECT id, title, author, price FROM Book WHERE title=?");
-			findBookByAuthorStmt = connection.prepareStatement("SELECT id, title, author, price FROM Book WHERE author=?");
-			findBookByPriceStmt = connection.prepareStatement("SELECT id, title, author, price FROM Book WHERE price=?");
+			findBookByTitleStmt = connection.prepareStatement("SELECT id, title, author, price FROM Book WHERE title = ?");
+			findBookByAuthorStmt = connection.prepareStatement("SELECT id, title, author, price FROM Book WHERE author = ?");
+			findBookByPriceStmt = connection.prepareStatement("SELECT id, title, author, price FROM Book WHERE price = ?");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -172,17 +172,15 @@ public class BookManagerJDBC implements BookManager{
 		try {
 			findBookByTitleStmt.setString(1, title);
 
-			ResultSet rs = findBookByIdStmt.executeQuery();
+			ResultSet rs = findBookByTitleStmt.executeQuery();
 
 			while (rs.next()){
-				if (rs.getString("title").equals(title)){
-					Book b = new Book();
-					b.setId(rs.getLong("id"));
-					b.setTitle(rs.getString("title"));
-					b.setAuthor(rs.getString("author"));
-					b.setPrice(rs.getDouble("price"));
-					books.add(b);
-				}
+				Book b = new Book();
+				b.setId(rs.getLong("id"));
+				b.setTitle(rs.getString("title"));
+				b.setAuthor(rs.getString("author"));
+				b.setPrice(rs.getDouble("price"));
+				books.add(b);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -195,19 +193,17 @@ public class BookManagerJDBC implements BookManager{
 		List<Book> books = new ArrayList<Book>();
 
 		try {
-			findBookByTitleStmt.setString(1, author);
+			findBookByAuthorStmt.setString(1, author);
 
-			ResultSet rs = findBookByIdStmt.executeQuery();
+			ResultSet rs = findBookByAuthorStmt.executeQuery();
 
 			while (rs.next()){
-				if (rs.getString("title").equals(author)){
-					Book b = new Book();
-					b.setId(rs.getLong("id"));
-					b.setTitle(rs.getString("title"));
-					b.setAuthor(rs.getString("author"));
-					b.setPrice(rs.getDouble("price"));
-					books.add(b);
-				}
+				Book b = new Book();
+				b.setId(rs.getLong("id"));
+				b.setTitle(rs.getString("title"));
+				b.setAuthor(rs.getString("author"));
+				b.setPrice(rs.getDouble("price"));
+				books.add(b);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -239,19 +235,17 @@ public class BookManagerJDBC implements BookManager{
 		List<Book> books = new ArrayList<Book>();
 
 		try {
-			findBookByTitleStmt.setDouble(1, price);
+			findBookByPriceStmt.setDouble(1, price);
 
-			ResultSet rs = findBookByIdStmt.executeQuery();
+			ResultSet rs = findBookByPriceStmt.executeQuery();
 
 			while (rs.next()){
-				if (rs.getDouble("title") == (price)){
-					Book b = new Book();
-					b.setId(rs.getLong("id"));
-					b.setTitle(rs.getString("title"));
-					b.setAuthor(rs.getString("author"));
-					b.setPrice(rs.getDouble("price"));
-					books.add(b);
-				}
+				Book b = new Book();
+				b.setId(rs.getLong("id"));
+				b.setTitle(rs.getString("title"));
+				b.setAuthor(rs.getString("author"));
+				b.setPrice(rs.getDouble("price"));
+				books.add(b);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
