@@ -1,14 +1,15 @@
 package com.example.jdbcdemo.service;
 
 import com.example.jdbcdemo.domain.Book;
-import org.junit.After;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 public class BookManagerJDBCTest {
 
@@ -26,6 +27,7 @@ public class BookManagerJDBCTest {
 
     Book book = new Book(TITLE_1, AUTHOR_1, PRICE_1);
     Book book2 = new Book(TITLE_2, AUTHOR_2, PRICE_2);
+    Book book3 = new Book(TITLE_3, AUTHOR_3, PRICE_3);
 
     private BookManagerJDBC bookManager = new BookManagerJDBC();
 
@@ -55,8 +57,21 @@ public class BookManagerJDBCTest {
         assertEquals(book.getAuthor(), bookRetrived.getAuthor());
         assertEquals(book.getPrice(), bookRetrived.getPrice(), 0.01);
     }
-
+    
+    //OK
     @Test
+    public void checkAddAllBooks() {
+    	List<Book> books = new ArrayList<>();
+    	books.add(book);
+    	books.add(book2);
+    	books.add(book3);
+    	
+    	bookManager.addAllBooks(books);
+    	int size = bookManager.getAllBooks().size();
+    	assertThat(size, either(is(3)).or(is(0)));
+    }
+
+	@Test
     public void checkFindById() {
 
         bookManager.addBook(book);
@@ -178,6 +193,6 @@ public class BookManagerJDBCTest {
         List<Book> books = bookManager.getAllBooks();
         Book bookRetrived = books.get(1);
 
-        assertEquals(PRICE_3, bookRetrived.getPrice(), 0.01);
-    }
+		assertEquals(PRICE_3, bookRetrived.getPrice(), 0.01);
+	}
 }
