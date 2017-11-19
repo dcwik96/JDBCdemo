@@ -202,4 +202,38 @@ public class BookManagerJDBCTest {
 
         assertEquals(PRICE_3, bookRetrived.getPrice(), 0.01);
     }
+
+    @Test
+    public void checkDeleteSelectedBooks() {
+        bookManager.addBook(book);
+        bookManager.addBook(book2);
+        bookManager.addBook(book3);
+
+        List<Book> books = bookManager.getAllBooks();
+        List<Long> ids = new ArrayList<>();
+        ids.add(books.get(0).getId());
+        ids.add(books.get(1).getId());
+
+        bookManager.deleteSelectedBooks(ids);
+
+        assertEquals(1, bookManager.getAllBooks().size());
+    }
+
+    @Test
+    public void checkUpdateSelectedBooks() {
+        List<Book> books;
+        List<Long> ids = new ArrayList<>();
+
+        bookManager.addBook(book);
+        bookManager.addBook(book2);
+        bookManager.addBook(book3);
+
+        books = bookManager.getAllBooks();
+
+        ids.add(books.get(0).getId());
+        ids.add(books.get(1).getId());
+
+        bookManager.updateSelectedBooks(ids, books);
+    }
 }
+
