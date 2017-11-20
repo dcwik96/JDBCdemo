@@ -212,17 +212,15 @@ public class BookManagerJDBCTest {
         List<Book> books = bookManager.getAllBooks();
         List<Long> ids = new ArrayList<>();
         ids.add(books.get(0).getId());
-        ids.add(books.get(1).getId());
+        ids.add(books.get(1).getId()+100);
 
-        bookManager.deleteSelectedBooks(ids);
-
-        assertEquals(1, bookManager.getAllBooks().size());
+        assertThat(bookManager.deleteSelectedBooks(ids), either(is(3)).or(is(1)));
     }
 
     @Test
     public void checkUpdateSelectedBooks() {
         List<Book> books;
-        List<Long> ids = new ArrayList<>();
+        List<Book> temp = new ArrayList<>();
 
         bookManager.addBook(book);
         bookManager.addBook(book2);
@@ -230,10 +228,24 @@ public class BookManagerJDBCTest {
 
         books = bookManager.getAllBooks();
 
-        ids.add(books.get(0).getId());
-        ids.add(books.get(1).getId());
+        temp.add(books.get(0));
+        temp.add(books.get(1));
+        temp.get(0).setTitle("TEST");
+//        temp.get(0).setId(100);
+        temp.get(1).setTitle("ZMIANA");
 
-        bookManager.updateSelectedBooks(ids, books);
+
+        assertThat(bookManager.updateSelectedBooks(temp), either(is(2)).or(is(0)));
+    }
+
+    @Test
+    public void checkOwnMethod() {
+        List<Book> books = new ArrayList<>();
+        books.add(book);
+        books.add(book2);
+        books.add(book3);
+
+        assertThat(bookManager.ownMethod(books), either(is(1)).or(is(0)));
     }
 }
 

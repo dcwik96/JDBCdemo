@@ -24,7 +24,7 @@ public interface BookManager {
 	List<Book> findByPrice(double price);
 
 	int deleteSelectedBooks(List<Long> ids);
-	int updateSelectedBooks(List<Long> ids, List<Book> books);
+	int updateSelectedBooks(List<Book> books);
 
 	int ownMethod(List<Book> books);
 

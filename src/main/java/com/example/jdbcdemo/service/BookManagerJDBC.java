@@ -205,6 +205,7 @@ public class BookManagerJDBC implements BookManager {
     public Book findById(long id) {
         Book b = new Book();
 
+
         try {
             findBookByIdStmt.setLong(1, id);
             ResultSet rs = findBookByIdStmt.executeQuery();
@@ -288,37 +289,32 @@ public class BookManagerJDBC implements BookManager {
                 e1.printStackTrace();
             }
         }
-        System.out.println(count);
-
         return count;
     }
 
     @Override
-    public int updateSelectedBooks(List<Long> ids, List<Book> books) {
+    public int updateSelectedBooks(List<Book> books) {
         int count = 0;
-        Book temp = new Book();
+        Book temp;
         try {
             connection.setAutoCommit(false);
-            for (int i = 0; i < ids.size(); i++) {
-                temp = findById(ids.get(i));
+            for (Book b : books) {
+                if (findById(b.getId()).getTitle() == null) {
+                    throw new SQLException("No book in db!");
+                } else {
+                    temp = findById(b.getId());
+                    updateBookStmt.setString(1, b.getTitle());
+                    updateBookStmt.setString(2, b.getAuthor());
+                    updateBookStmt.setDouble(3, b.getPrice());
+                    updateBookStmt.setString(4, temp.getTitle());
+                    updateBookStmt.setString(5, temp.getAuthor());
+                    updateBookStmt.setDouble(6, temp.getPrice());
 
-                updateBookStmt.setString(1, books.get(i).getTitle());
-                updateBookStmt.setString(2, books.get(i).getAuthor());
-                updateBookStmt.setDouble(3, books.get(i).getPrice());
-                updateBookStmt.setString(4, temp.getTitle());
-                updateBookStmt.setString(5, temp.getAuthor());
-                updateBookStmt.setDouble(6, temp.getPrice());
-
-                count = count + updateBookStmt.executeUpdate();
-                System.out.println(count);
-            }
-            if (count != ids.size()) {
-                System.out.println("tes");
-                connection.rollback();
+                    count = count + updateBookStmt.executeUpdate();
+                }
             }
             connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
             try {
                 connection.rollback();
             } catch (SQLException e1) {
@@ -328,9 +324,31 @@ public class BookManagerJDBC implements BookManager {
         return count;
     }
 
+
     @Override
     public int ownMethod(List<Book> books) {
-        return 0;
+        int count = 0;
+
+        try {
+            connection.setAutoCommit(false);
+
+            addAllBooks(books);
+            deleteBookById(books.get(books.size()-1).getId());
+            addBook(books.get(books.size()-1));
+            deleteAllBooks();
+            addAllBooks(books);
+            connection.commit();
+            count++;
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        }
+
+
+        return count;
     }
 
 
