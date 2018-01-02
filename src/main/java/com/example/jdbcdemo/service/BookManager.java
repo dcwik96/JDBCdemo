@@ -25,8 +25,4 @@ public interface BookManager {
 
 	int deleteSelectedBooks(List<Long> ids);
 	int updateSelectedBooks(List<Book> books);
-
-	int ownMethod(List<Book> books);
-
-	
 }

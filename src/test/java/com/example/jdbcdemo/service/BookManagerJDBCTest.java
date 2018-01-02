@@ -212,7 +212,7 @@ public class BookManagerJDBCTest {
         List<Book> books = bookManager.getAllBooks();
         List<Long> ids = new ArrayList<>();
         ids.add(books.get(0).getId());
-        ids.add(books.get(1).getId()+100);
+        ids.add(books.get(1).getId() + 100);
 
         assertThat(bookManager.deleteSelectedBooks(ids), either(is(3)).or(is(1)));
     }
@@ -236,16 +236,6 @@ public class BookManagerJDBCTest {
 
 
         assertThat(bookManager.updateSelectedBooks(temp), either(is(2)).or(is(0)));
-    }
-
-    @Test
-    public void checkOwnMethod() {
-        List<Book> books = new ArrayList<>();
-        books.add(book);
-        books.add(book2);
-        books.add(book3);
-
-        assertThat(bookManager.ownMethod(books), either(is(1)).or(is(0)));
     }
 }
 

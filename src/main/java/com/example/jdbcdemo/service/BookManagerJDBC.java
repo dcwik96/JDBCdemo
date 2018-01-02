@@ -323,33 +323,4 @@ public class BookManagerJDBC implements BookManager {
         }
         return count;
     }
-
-
-    @Override
-    public int ownMethod(List<Book> books) {
-        int count = 0;
-
-        try {
-            connection.setAutoCommit(false);
-
-            addAllBooks(books);
-            deleteBookById(books.get(books.size()-1).getId());
-            addBook(books.get(books.size()-1));
-            deleteAllBooks();
-            addAllBooks(books);
-            connection.commit();
-            count++;
-        } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-        }
-
-
-        return count;
-    }
-
-
 }
